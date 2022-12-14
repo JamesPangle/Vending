@@ -81,8 +81,14 @@ public class Product {
 
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public boolean setQuantity(int quantity) {
+        if (quantity <= 5 && quantity >= 0) {
+            this.quantity = quantity;
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
 }
