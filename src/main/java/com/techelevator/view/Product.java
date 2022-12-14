@@ -2,75 +2,87 @@ package com.techelevator.view;
 
 import java.util.Map;
 
-    // will need a log class and exception log class
+// will need a log class and exception log class
 //    public enum ProductName {
 //        potato_crisps, stackers, grain_waves,
 //    }
 
-    public class Product {
+public class Product {
 
-        private String productName;
+    private String productName;
 
-        private String type;
+    private String type;
 
-        private double price;
+    private double price;
 
-        private String productLocation; // or a list?!? ProductLocation could be enum like ProductName
+    private String productLocation; // or a list?!? ProductLocation could be enum like ProductName
+    private int quantity;
 
-        private Map<String,Double> products;
+    private Map<String, Double> products;
 
+    public Product(String productLocation, String productName, double price, String type) {
 
-        public Product(String productLocation, String productName,  double price, String type) {
+        this.productLocation = productLocation;
+        this.productName = productName;
+        this.price = price;
+        this.type = type;
+        quantity = 5;
+    }
 
-            this.productLocation = productLocation;
-            this.productName = productName;
-            this.price = price;
-            this.type = type;
+    // a display() method to list all items
+    // a sales_report() method
 
-        }
+    public String getProductName() {
+        return productName;
+    }
 
-        // a display() method to list all items
-        // a sales_report() method
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
+    public String getType() {
+        return type;
+    }
 
-        public String getProductName() {
-            return productName;
-        }
+    public void setType(String type) {
+        this.type = type;
+    }
 
-        public void setProductName(String productName) {
-            this.productName = productName;
-        }
+    public double getPrice() {
+        return price;
+    }
 
-        public String getType() {
-            return type;
-        }
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
-        public void setType(String type) {
-            this.type = type;
-        }
+    public String getProductLocation() {
+        return productLocation;
+    }
 
-        public double getPrice() {
-            return price;
-        }
+    public void setProductLocation(String productLocation) {
+        this.productLocation = productLocation;
+    }
 
-        public void setPrice(double price) {
-            this.price = price;
-        }
+    public Map<String, Double> getProducts() {
+        return products;
+    }
 
-        public String getProductLocation() {
-            return productLocation;
-        }
+    public void setProducts(Map<String, Double> products) {
+        this.products = products;
+    }
 
-        public void setProductLocation(String productLocation) {
-            this.productLocation = productLocation;
-        }
-
-        public Map<String, Double> getProducts() {
-            return products;
-        }
-
-        public void setProducts(Map<String, Double> products) {
-            this.products = products;
+    public String getQuantity() {
+        if (quantity < 0) {
+            return "SOLD OUT";
+        } else {
+            return Integer.toString(quantity);
         }
 
     }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+}

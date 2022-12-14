@@ -6,7 +6,9 @@ import com.techelevator.view.Product;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -40,28 +42,31 @@ public class VendingMachineCLI {
 	}
 
 	public void run() {
+		Map<String, Product> productMap = new HashMap<>(); // Map with key being location 
+		List<String> locations = new ArrayList<>(); // To make the Display cleaner
+		try (Scanner inventoryScanner = new Scanner(inventoryFile)) {
+			while (inventoryScanner.hasNextLine()) {
+				String currentLine = inventoryScanner.nextLine();
+				String[] splitString = currentLine.split("\\|");
+				productMap.put(splitString[0], new Product(splitString[0], splitString[1], //putting all of the items into a map
+						Double.parseDouble(splitString[2]), splitString[3]));
+				locations.add(splitString[0]); // adding the locations in order for a cleaner look
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found.");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 		String choice = "";
 		while (!choice.equals(MAIN_MENU_OPTION_EXIT)) {
 			choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
 				// display vending machine items
-				Map<String, Product> productMap = new HashMap<>();
-				try (Scanner inventoryScanner = new Scanner(inventoryFile)) {
-					while (inventoryScanner.hasNextLine()) {
-						String currentLine = inventoryScanner.nextLine();
-						String[] splitString = currentLine.split("\\|");
-						productMap.put(splitString[0], new Product(splitString[0], splitString[1],
-								Double.parseDouble(splitString[2]), splitString[3]));
-					}
-				} catch (FileNotFoundException e) {
-					System.out.println("File not found.");
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-				}
-				for (Map.Entry<String, Product> product : productMap.entrySet()) { //Displaying all of the items
-					System.out.printf("%s | %s | %.2f\n", product.getValue().getProductLocation(),
-							product.getValue().getProductName(), product.getValue().getPrice());
+				for (String location : locations) {
+					System.out.printf("%s: %s | $%.2f | Quantity: %s\n", location,
+							productMap.get(location).getProductName(),
+							productMap.get(location).getPrice(), productMap.get(location).getQuantity());
 				}
 
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
@@ -77,12 +82,12 @@ public class VendingMachineCLI {
 						try {
 							double depositAmount = menu.getResponseDouble();
 							balance += depositAmount;
-						} catch (Exception e) {
+						} catch (Exception c) {
 							System.out.println("Wrong format. Please do X.XX");
 						}
 					}
-					if (customerChoice.equals(CUSTOMER_OPTION_SELECT_PRODUCT)) {
-						//Select Product here
+					if (customerChoice.equals(CUSTOMER_OPTION_SELECT_PRODUCT)) { //Select Product here
+
 					}
 				}
 			}
