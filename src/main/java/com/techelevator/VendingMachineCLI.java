@@ -5,11 +5,8 @@ import com.techelevator.view.Product;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class VendingMachineCLI {
@@ -33,8 +30,6 @@ public class VendingMachineCLI {
 
 	private double balance = 0.0;
 
-	NumberFormat dollarFormat = NumberFormat.getCurrencyInstance();
-
 	private Menu menu;
 
 	public VendingMachineCLI(Menu menu) {
@@ -42,8 +37,9 @@ public class VendingMachineCLI {
 	}
 
 	public void run() {
-		Map<String, Product> productMap = new HashMap<>(); // Map with key being location 
-		List<String> locations = new ArrayList<>(); // To make the Display cleaner
+		HashMap<String, Product> productMap = new HashMap<>(); // Map with key being location 
+		ArrayList<String> locations = new ArrayList<>(); // To make the Display cleaner
+
 		try (Scanner inventoryScanner = new Scanner(inventoryFile)) {
 			while (inventoryScanner.hasNextLine()) {
 				String currentLine = inventoryScanner.nextLine();
@@ -52,29 +48,31 @@ public class VendingMachineCLI {
 						Double.parseDouble(splitString[2]), splitString[3]));
 				locations.add(splitString[0]); // adding the locations in order for a cleaner look
 			}
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found.");
+		} catch (FileNotFoundException e) { //Stops the program if anything goes wrong
+			System.out.println("File Not Found. File must be named vendingmachine.csv");
+			throw new RuntimeException();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			throw new RuntimeException();
 		}
-		String choice = "";
-		while (!choice.equals(MAIN_MENU_OPTION_EXIT)) {
+
+		String choice = ""; // initialized out here so we can use it in the while condition
+		while (!choice.equals(MAIN_MENU_OPTION_EXIT)) { // While exit isn't chosen
 			choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 
-			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
-				// display vending machine items
-				for (String location : locations) {
+			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) { // display vending machine items
+
+				for (String location : locations) { // using locations variable to display the items, their prices, their quantity, and their location.
 					System.out.printf("%s: %s | $%.2f | Quantity: %s\n", location,
 							productMap.get(location).getProductName(),
 							productMap.get(location).getPrice(), productMap.get(location).getQuantity());
 				}
 
-			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
-				// Purchase here
+			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) { // Purchase here
 
 				String customerChoice = "";
 				while (!customerChoice.equals(CUSTOMER_OPTION_END_TRANSACTION)) { // While "End Transaction" isn't selected
-					System.out.println("Current Money Provided: " + dollarFormat.format(balance));
+					System.out.printf("Current Money Provided: $%.2f\n", balance);
 					customerChoice = (String) menu.getChoiceFromOptions(CUSTOMER_OPTIONS);
 
 					if (customerChoice.equals(CUSTOMER_OPTION_FEED_MONEY)) { // Feed Money here
@@ -83,10 +81,10 @@ public class VendingMachineCLI {
 							double depositAmount = menu.getResponseDouble();
 							balance += depositAmount;
 						} catch (Exception c) {
-							System.out.println("Wrong format. Please do X.XX");
+							System.out.println("Wrong format. Please do #.##");
 						}
 					}
-					if (customerChoice.equals(CUSTOMER_OPTION_SELECT_PRODUCT)) { //Select Product here
+					if (customerChoice.equals(CUSTOMER_OPTION_SELECT_PRODUCT)) { //*********************Select Product here*******************************
 
 					}
 				}
@@ -99,5 +97,4 @@ public class VendingMachineCLI {
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
 		cli.run();
 	}
-
 }
