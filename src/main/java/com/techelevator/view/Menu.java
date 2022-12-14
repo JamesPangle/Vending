@@ -33,10 +33,8 @@ public class Menu {
 				choice = options[selectedOption - 1];
 			}
 		} catch (NumberFormatException e) {
-			// eat the exception, an error message will be displayed below since choice will be null
-		}
-		if (choice == null) {
-			out.println(System.lineSeparator() + "*** " + userInput + " is not a valid option ***" + System.lineSeparator());
+			out.println(System.lineSeparator() + "*** " + userInput + " is not a valid option ***"
+					+ System.lineSeparator());
 		}
 		return choice;
 	}
@@ -50,4 +48,19 @@ public class Menu {
 		out.print(System.lineSeparator() + "Please choose an option >>> ");
 		out.flush();
 	}
+
+	public Double getResponseDouble() {
+		double newdub = 0;
+		try {
+			newdub = in.nextDouble();
+			if (in.hasNextLine()) {
+				in.nextLine();
+			}
+		} catch (NumberFormatException e) {
+			System.out.println(e.getMessage());
+		}
+
+		return newdub;
+	}
+
 }
