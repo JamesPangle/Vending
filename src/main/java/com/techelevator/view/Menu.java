@@ -31,6 +31,8 @@ public class Menu {
 			int selectedOption = Integer.valueOf(userInput);
 			if (selectedOption > 0 && selectedOption <= options.length) {
 				choice = options[selectedOption - 1];
+			} else {
+				System.out.println("Incorrect input.");
 			}
 		} catch (NumberFormatException e) {
 			out.println(System.lineSeparator() + "*** " + userInput + " is not a valid option ***"

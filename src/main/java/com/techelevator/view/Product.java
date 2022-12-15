@@ -73,7 +73,7 @@ public class Product {
     }
 
     public String getQuantity() {
-        if (quantity < 0) {
+        if (quantity <= 0) {
             return "SOLD OUT";
         } else {
             return Integer.toString(quantity);
