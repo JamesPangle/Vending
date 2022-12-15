@@ -99,6 +99,8 @@ public class VendingMachineCLI {
 								System.out.println("Insufficient funds.");
 							} else {
 								balance -= productMap.get(loc).getPrice();
+								productMap.get(loc)
+										.setQuantity(Integer.parseInt(productMap.get(loc).getQuantity()) - 1);
 								System.out.printf("%s for %s | Balance left: %.2f\n",
 										productMap.get(loc).getProductName(), productMap.get(loc).getPrice(), balance);
 								productMap.get(loc).sound();
