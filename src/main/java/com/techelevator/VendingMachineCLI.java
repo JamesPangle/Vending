@@ -85,7 +85,32 @@ public class VendingMachineCLI {
 						}
 					}
 					if (customerChoice.equals(CUSTOMER_OPTION_SELECT_PRODUCT)) { //*********************Select Product here*******************************
-
+						for (String location : locations) { // using locations variable to display the items, their prices, their quantity, and their location.
+							System.out.printf("%s: %s | $%.2f | Quantity: %s\n", location,
+									productMap.get(location).getProductName(),
+									productMap.get(location).getPrice(), productMap.get(location).getQuantity());
+						}
+						System.out.println("Pick from the locations above:");
+						String loc = menu.getResponseString();
+						if (productMap.containsKey(loc)) {
+							if (productMap.get(loc).getQuantity().equals("SOLD OUT")) {
+								System.out.println("This item is sold out.");
+							} else if (balance < productMap.get(loc).getPrice()) {
+								System.out.println("Insufficient funds.");
+							} else {
+								balance -= productMap.get(loc).getPrice();
+								System.out.printf("%s for %s | Balance left: %.2f\n",
+										productMap.get(loc).getProductName(), productMap.get(loc).getPrice(), balance);
+								productMap.get(loc).sound();
+							}
+						} else {
+							System.out.println("That was an invalid location.");
+						}
+					}
+					if (customerChoice.equals(CUSTOMER_OPTION_END_TRANSACTION)) {
+						System.out.printf("will now dispense your change of %.2f\n", balance);
+						balance = 0;
+						break;
 					}
 				}
 			}

@@ -63,4 +63,10 @@ public class Menu {
 		return newdub;
 	}
 
+	public String getResponseString() {
+		String string = in.nextLine();
+		string = string.toUpperCase();
+		return string;
+	}
+
 }
