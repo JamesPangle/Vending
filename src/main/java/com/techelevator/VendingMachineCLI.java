@@ -79,25 +79,25 @@ public class VendingMachineCLI {
 						System.out.println("How much did you deposit?");
 						try {
 							double depositAmount = menu.getResponseDouble();
-							balance += depositAmount;
+							balance += depositAmount; //balance getting fed
 						} catch (Exception c) {
 							System.out.println("Wrong format. Please do #.##");
 						}
 					}
-					if (customerChoice.equals(CUSTOMER_OPTION_SELECT_PRODUCT)) { //*********************Select Product here*******************************
+					if (customerChoice.equals(CUSTOMER_OPTION_SELECT_PRODUCT)) { //Select Product here
 						for (String location : locations) { // using locations variable to display the items, their prices, their quantity, and their location.
 							System.out.printf("%s: %s | $%.2f | Quantity: %s\n", location,
 									productMap.get(location).getProductName(),
 									productMap.get(location).getPrice(), productMap.get(location).getQuantity());
 						}
-						System.out.println("Pick from the locations above:");
+						System.out.println("Pick from the locations above:"); // picking item 
 						String loc = menu.getResponseString();
-						if (productMap.containsKey(loc)) {
-							if (productMap.get(loc).getQuantity().equals("SOLD OUT")) {
+						if (productMap.containsKey(loc)) { // Checking if the input is in the location list
+							if (productMap.get(loc).getQuantity().equals("SOLD OUT")) { // checking quantity
 								System.out.println("This item is sold out.");
-							} else if (balance < productMap.get(loc).getPrice()) {
+							} else if (balance < productMap.get(loc).getPrice()) { // checking funds
 								System.out.println("Insufficient funds.");
-							} else {
+							} else { // going through with the transaction
 								balance -= productMap.get(loc).getPrice();
 								productMap.get(loc)
 										.setQuantity(Integer.parseInt(productMap.get(loc).getQuantity()) - 1);
@@ -109,7 +109,7 @@ public class VendingMachineCLI {
 							System.out.println("That was an invalid location.");
 						}
 					}
-					if (customerChoice.equals(CUSTOMER_OPTION_END_TRANSACTION)) {
+					if (customerChoice.equals(CUSTOMER_OPTION_END_TRANSACTION)) { // end transaction chosen
 						System.out.printf("will now dispense your change of %.2f\n", balance);
 						balance = 0;
 						break;
