@@ -1,10 +1,12 @@
 package com.techelevator;
 
+import com.techelevator.view.Log;
 import com.techelevator.view.Menu;
 import com.techelevator.view.Product;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -32,9 +34,15 @@ public class VendingMachineCLI {
 
 	private Menu menu;
 
+	public String currentMoney;
+
+	public String remainingMoney;
+
 	public VendingMachineCLI(Menu menu) {
 		this.menu = menu;
 	}
+
+	private Log log = new Log();
 
 	public void run() {
 		HashMap<String, Product> productMap = new HashMap<>(); // Map with key being location 
@@ -80,6 +88,8 @@ public class VendingMachineCLI {
 						try {
 							double depositAmount = menu.getResponseDouble();
 							balance += depositAmount; //balance getting fed
+							log.log("FEED MONEY", currentMoney, remainingMoney);
+
 						} catch (Exception c) {
 							System.out.println("Wrong format. Please do #.##");
 						}
@@ -99,6 +109,7 @@ public class VendingMachineCLI {
 								System.out.println("Insufficient funds.");
 							} else { // going through with the transaction
 								balance -= productMap.get(loc).getPrice();
+								log.log("GIVE CHANGE", currentMoney, remainingMoney);
 								productMap.get(loc)
 										.setQuantity(Integer.parseInt(productMap.get(loc).getQuantity()) - 1);
 								System.out.printf("%s for %s | Balance left: %.2f\n",

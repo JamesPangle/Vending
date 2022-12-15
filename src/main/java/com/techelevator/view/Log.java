@@ -16,33 +16,27 @@ import java.util.Date;
 
 public class Log {
 
-    private File logFile = new File("Log.txt");
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss a");
-    private LocalDateTime a;
+    String logPath;
+    File logFile;
+    PrintWriter logWriter;
+    SimpleDateFormat simpleDateFormat;
+    String pattern;
 
-    public String writeFeedMoney(BigDecimal moneyAdded, BigDecimal balance) {
-        a = LocalDateTime.now();
-        return appendToLog(a.format(formatter) + " FEED MONEY: $" + moneyAdded + " $" + balance);
-    }
 
-    public String writeItemPurchased(String key, String name, BigDecimal itemPrice, BigDecimal balance) {
-        a = LocalDateTime.now();
-        return appendToLog(a.format(formatter) + " " + key + " $" + itemPrice + " $" + balance);
-    }
-
-    public String writeCompleteTransaction(BigDecimal change, BigDecimal balance) {
-        a = LocalDateTime.now();
-        return appendToLog(a.format(formatter) + " GIVE CHANGE: $" + change + " $" + balance);
-    }
-
-    private String appendToLog(String string) {
-        String result = "";
-        try (PrintWriter writer = new PrintWriter(new FileOutputStream(logFile, true))) {
-            writer.println(string);
-        } catch (FileNotFoundException e) {
-            result = "\nFile not found.";
+    public Log(){
+        this.logPath = "Log.txt";
+        this.logFile = new File(logPath);
+        this.pattern = "MM/dd/yyyy hh:mm:ss a";
+        this.simpleDateFormat = new SimpleDateFormat(pattern);
+        try {
+            this.logWriter = new PrintWriter(new FileOutputStream(logFile),true);
+        }catch (FileNotFoundException e) {
+            System.out.println("File not found!");
         }
-        return result;
+    }
+    public void log(String activity, String currentMoney, String remainingMoney) {
+        String localTime = simpleDateFormat.format(new Date());
+        logWriter.println(localTime + " " + activity + " $" + currentMoney + " $" + remainingMoney);
     }
 
 }
