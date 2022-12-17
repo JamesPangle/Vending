@@ -34,9 +34,9 @@ public class VendingMachineCLI {
 
 	private Menu menu;
 
-	public String currentMoney;
+	public double currentMoney;
 
-	public String remainingMoney;
+	public double remainingMoney;
 
 	public VendingMachineCLI(Menu menu) {
 		this.menu = menu;
@@ -88,7 +88,8 @@ public class VendingMachineCLI {
 						try {
 							double depositAmount = menu.getResponseDouble();
 							balance += depositAmount; //balance getting fed
-							log.log("FEED MONEY", currentMoney, remainingMoney);
+							remainingMoney = balance;
+							log.log("FEED MONEY", depositAmount, remainingMoney);
 
 						} catch (Exception c) {
 							System.out.println("Wrong format. Please do #.##");
@@ -108,8 +109,11 @@ public class VendingMachineCLI {
 							} else if (balance < productMap.get(loc).getPrice()) { // checking funds
 								System.out.println("Insufficient funds.");
 							} else { // going through with the transaction
+								currentMoney = balance;
 								balance -= productMap.get(loc).getPrice();
-								log.log("GIVE CHANGE", currentMoney, remainingMoney);
+								remainingMoney = balance;
+								log.log(productMap.get(loc).getProductName() + " " + productMap
+										.get(loc).getProductLocation(), currentMoney, remainingMoney);
 								productMap.get(loc)
 										.setQuantity(Integer.parseInt(productMap.get(loc).getQuantity()) - 1);
 								System.out.printf("%s for %s | Balance left: %.2f\n",
@@ -121,8 +125,10 @@ public class VendingMachineCLI {
 						}
 					}
 					if (customerChoice.equals(CUSTOMER_OPTION_END_TRANSACTION)) { // end transaction chosen
-						System.out.printf("will now dispense your change of %.2f\n", balance);
+						System.out.printf("will now dispense your change of %.2f.\n", balance);
+						log.log("GIVE CHANGE", balance, 0);
 						balance = 0;
+
 						break;
 					}
 				}

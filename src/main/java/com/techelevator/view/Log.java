@@ -22,21 +22,21 @@ public class Log {
     SimpleDateFormat simpleDateFormat;
     String pattern;
 
-
-    public Log(){
+    public Log() {
         this.logPath = "Log.txt";
         this.logFile = new File(logPath);
         this.pattern = "MM/dd/yyyy hh:mm:ss a";
         this.simpleDateFormat = new SimpleDateFormat(pattern);
         try {
-            this.logWriter = new PrintWriter(new FileOutputStream(logFile),true);
-        }catch (FileNotFoundException e) {
+            this.logWriter = new PrintWriter(new FileOutputStream(logFile), true);
+        } catch (FileNotFoundException e) {
             System.out.println("File not found!");
         }
     }
-    public void log(String activity, String currentMoney, String remainingMoney) {
+
+    public void log(String activity, double currentMoney, double remainingMoney) {
         String localTime = simpleDateFormat.format(new Date());
-        logWriter.println(localTime + " " + activity + " $" + currentMoney + " $" + remainingMoney);
+        logWriter.printf("%s %s: $%.2f $%.2f\n", localTime, activity, currentMoney, remainingMoney);
     }
 
 }
