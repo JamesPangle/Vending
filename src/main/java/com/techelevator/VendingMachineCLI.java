@@ -6,7 +6,6 @@ import com.techelevator.view.Product;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -116,9 +115,9 @@ public class VendingMachineCLI {
 										.get(loc).getProductLocation(), currentMoney, remainingMoney);
 								productMap.get(loc)
 										.setQuantity(Integer.parseInt(productMap.get(loc).getQuantity()) - 1);
-								System.out.printf("%s for %s | Balance left: %.2f\n",
-										productMap.get(loc).getProductName(), productMap.get(loc).getPrice(), balance);
-								productMap.get(loc).sound();
+								System.out.printf("%s for %s | Balance left: %.2f\n%s\n",
+										productMap.get(loc).getProductName(), productMap.get(loc).getPrice(), balance,
+										productMap.get(loc).sound());
 							}
 						} else {
 							System.out.println("That was an invalid location.");
