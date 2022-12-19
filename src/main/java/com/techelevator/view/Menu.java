@@ -35,6 +35,10 @@ public class Menu {
 				System.out.println("Incorrect input.");
 			}
 		} catch (NumberFormatException e) {
+
+		}
+
+		if (choice == null) {
 			out.println(System.lineSeparator() + "*** " + userInput + " is not a valid option ***"
 					+ System.lineSeparator());
 		}
