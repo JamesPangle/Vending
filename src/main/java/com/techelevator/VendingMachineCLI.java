@@ -108,16 +108,20 @@ public class VendingMachineCLI {
 							} else if (balance < productMap.get(loc).getPrice()) { // checking funds
 								System.out.println("Insufficient funds.");
 							} else { // going through with the transaction
-								currentMoney = balance;
+								currentMoney = balance; //before transaction
 								balance -= productMap.get(loc).getPrice();
-								remainingMoney = balance;
+								remainingMoney = balance; //after transaction
+
 								log.log(productMap.get(loc).getProductName() + " " + productMap
-										.get(loc).getProductLocation(), currentMoney, remainingMoney);
+										.get(loc).getProductLocation(), currentMoney, remainingMoney); // logging 
+
 								productMap.get(loc)
-										.setQuantity(Integer.parseInt(productMap.get(loc).getQuantity()) - 1);
-								System.out.printf("%s for %s | Balance left: %.2f\n%s\n",
-										productMap.get(loc).getProductName(), productMap.get(loc).getPrice(), balance,
-										productMap.get(loc).sound());
+										.setQuantity(Integer.parseInt(productMap.get(loc).getQuantity()) - 1); // taking one out of stock
+
+								System.out.printf("%s for %s | Balance left: %.2f\n",
+										productMap.get(loc).getProductName(), productMap.get(loc).getPrice(), balance);
+
+								productMap.get(loc).sound(); //make sound
 							}
 						} else {
 							System.out.println("That was an invalid location.");

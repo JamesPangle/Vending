@@ -91,18 +91,20 @@ public class Product {
 
     }
 
-    public String sound() {
+    public void sound() {
         switch (this.getType()) {
             case ("Chip"):
-                return ("Crunch Crunch, Yum!");
+                System.out.println("Crunch Crunch, Yum!");
+                break;
             case ("Candy"):
-                return ("Munch Munch, Yum!");
+                System.out.println("Munch Munch, Yum!");
+                break;
             case ("Drink"):
-                return ("Glug Glug, Yum!");
+                System.out.println("Glug Glug, Yum!");
+                break;
             case ("Gum"):
-                return ("Chew Chew, Yum!");
-            default:
-                return null;
+                System.out.println("Chew Chew, Yum!");
+                break;
         }
 
     }
