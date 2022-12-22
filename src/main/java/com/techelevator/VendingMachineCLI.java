@@ -128,8 +128,14 @@ public class VendingMachineCLI {
 						}
 					}
 					if (customerChoice.equals(CUSTOMER_OPTION_END_TRANSACTION)) { // end transaction chosen
-						System.out.printf("will now dispense your change of %.2f.\n", balance);
+						int quart = (int) (balance / .25);
+						int dimes = (int) ((balance - (quart * .25)) / .1);
+						int nickels = (int) (((balance - ((quart * .25) + (dimes * .1))) / .05));
+						System.out.printf(
+								"will now dispense your change of %.2f.\nQUARTERS: %d\nDIMES:%d\nNICKELS:%d\n", balance,
+								quart, dimes, nickels);
 						log.log("GIVE CHANGE", balance, 0);
+
 						balance = 0;
 
 						break;
